@@ -121,27 +121,7 @@ const DATA={
   winDesc:'你用行动重新赢得了ISTJ的信任。准时、兑现承诺、说到做到——这些对TA来说比一万句情话都重要。你被重新加入了TA的可信赖名单。'
 };
 
-const OPTIONS=[
-  '用行动证明你靠得住',
-  '给TA一个明确的承诺和时间表',
-  '找借口解释为什么没做到',
-  '主动帮TA分担实际事务'
-];
-
-const STAGES=[
-  {scene:'你迟到了没有提前说',line:'下次注意。',safe:1,death:'你说堵车 TA说你的时间管理不行'},
-  {scene:'你答应的事忘了做',line:'你忘了。',safe:4,death:'你说下次 TA说上次你也说下次'},
-  {scene:'TA整理好的东西被你弄乱了',line:'乱了。',safe:1,death:'你说帮忙 TA在重新整理你和关系'},
-  {scene:'TA问你计划你说到时候再说',line:'没有计划？',safe:2,death:'到时候再说 到时候就没有你了'},
-  {scene:'你冲动消费被TA知道了',line:'你考虑过吗？',safe:2,death:'你说喜欢就买 TA说你不适合过日子'},
-  {scene:'TA说你把TA的信任当理所当然',line:'你从来不记。',safe:4,death:'你说记得 TA说那你说说看 你哑口'},
-  {scene:'TA不再提醒你任何事情了',line:'你应该记得。',safe:1,death:'TA不再提醒 因为不值得提醒了'},
-  {scene:'你说改但你改了两天又回去了',line:'三天。',safe:1,death:'你坚持了不到三天 TA说果然'},
-  {scene:'TA把你从共同计划里剔除了',line:'我先自己做。',safe:2,death:'你说一起 TA说不用了 你不靠谱'},
-  {scene:'TA开始记账算你们的账',line:'对一下。',safe:4,death:'你说不用算这么清 TA开始算清一切'},
-  {scene:'TA不再过问你的行踪',line:'你随意。',safe:1,death:'随意不是自由 是不在乎了'},
-  {scene:'TA说我们需要谈谈并且拿出纸笔',line:'我们来列一下。',safe:2,death:'你说用不着写 TA说你连写的价值都没有'}
-];
+const STAGES=[{scene:"你迟到了没有提前说",line:"下次注意。",options:["对不起我设好提醒不会再迟到","堵车了我有什么办法","我提前半小时到补偿你","你提醒我一下不行吗"],safe:1,death:"你说堵车 TA说你的时间管理不行"},{scene:"你答应的事忘了做",line:"你忘了。",options:["我马上做今晚发给你","我太忙了忘了","你记下来提醒我","我设个备忘不会再忘"],safe:4,death:"你说下次 TA说上次你也说下次"},{scene:"TA整理好的东西被你弄乱了",line:"乱了。",options:["我帮你重新整理好","乱了再整理就好","一点小乱而已","以后我按你的方式放"],safe:1,death:"你说帮忙 TA在重新整理你和关系"},{scene:"TA问你计划你说到时候再说",line:"没有计划？",options:["我现在就做计划发给你","到时候再说不行吗","你觉得怎么计划好","计划赶不上变化"],safe:2,death:"到时候再说 到时候就没有你了"},{scene:"你冲动消费被TA知道了",line:"你考虑过吗？",options:["我错了以后大额消费先跟你商量","我喜欢就买了","你管得太宽了吧","我退掉然后我们存钱"],safe:2,death:"你说喜欢就买 TA说你不适合过日子"},{scene:"TA说你把TA的信任当理所当然",line:"你从来不记。",options:["我以后拿本子记下来","我记得的只是这次忘了","你说我不记我证明给你看","你想要我怎么记"],safe:4,death:"你说记得 TA说那你说说看 你哑口"},{scene:"TA不再提醒你任何事情了",line:"你应该记得。",options:["你还是要提醒我一下我靠不住","好我自己记得","你不提醒我我怎么记得","我以后自己设闹钟"],safe:1,death:"TA不再提醒 因为不值得提醒了"},{scene:"你说改但你改了两天又回去了",line:"三天。",options:["再给我一次机会这次一定坚持","改两天也是改","我承认我做不到","你监督我我不偷懒"],safe:1,death:"你坚持了不到三天 TA说果然"},{scene:"TA把你从共同计划里剔除了",line:"我先自己做。",options:["我们一起做我保证不掉链子","你做吧我不管了","你别一个人我们商量","你信不过我了吗"],safe:2,death:"你说一起 TA说不用了 你不靠谱"},{scene:"TA开始记账算你们的账",line:"对一下。",options:["好我们对一下AA","你算这么清是还要在一起吗","以后我管账","我转给你我们清楚"],safe:4,death:"你说不用算这么清 TA开始算清一切"},{scene:"TA不再过问你的行踪",line:"你随意。",options:["你不关心我去哪了吗","那我去哪也不用报备了","我主动告诉你我去哪了","你是不是已经不在乎了"],safe:1,death:"随意不是自由 是不在乎了"},{scene:"TA说我们需要谈谈并且拿出纸笔",line:"我们来列一下。",options:["好你说我听着","你每次都这样上纲上线","列完我们能解决吗","你列我改"],safe:2,death:"你说用不着写 TA说你连写的价值都没有"}];
 
 let cur=0,over=false;
 const A=document.getElementById('app');
@@ -176,7 +156,7 @@ function lv(){
   if(over)return'';
   if(cur>=STAGES.length)return end();
   const s=STAGES[cur];
-  const optsHtml=OPTIONS.map((o,i)=>`<button class="opt" onclick="pk(${i})"><span class="il s${i+1}">${LABELS[i]}</span>${o}</button>`).join('');
+  const optsHtml=s.options.map((o,i)=>`<button class="opt" onclick="pk(${i})"><span class="il s${i+1}">${LABELS[i]}</span>${o}</button>`).join('');
   return `<div class="card fi">
     <div class="lv-hd">
       <span class="lv-name">⚠️ 第${cur+1}/${STAGES.length}关</span>
